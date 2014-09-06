@@ -24,19 +24,30 @@ while(1):
     # ret,thresh = cv2.adaptiveThreshold(imgray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,3)
     # ret,thresh = cv2.threshold(imgray,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     ret,thresh = cv2.threshold(imgray,0,255,cv2.THRESH_BINARY)
+
     # contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    contours, hierarchy = cv2.findContours(fgmask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    # contours, hierarchy = cv2.findContours(fgmask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(fgmask,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
-    cv2.drawContours(fgmask, contours, -1, (255,255,255), 3)
+    # cv2.drawContours(frame, contours, -1, (255,255,255), 3)
+    # hull = cv2.convexHull(contours)
 
-    for i in range(0, len(contours)):
-        if (i % 2 == 0):
-           cnt = contours[i]
-           #mask = np.zeros(im2.shape,np.uint8)
-           #cv2.drawContours(mask,[cnt],0,255,-1)
-           x,y,w,h = cv2.boundingRect(cnt)
-           cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,255),2)
-           # cv2.imshow('Features', im)
+    # cv2.drawContours(frame, contours, -1, (255,255,255), 3)
+    # cv2.drawContours(frame, contours, -1, (255,255,255), 3) # 0 - draw only contour 0
+
+    mask = np.zeros(fgmask.shape,np.uint8)
+    if hierarchy is not None :
+      for i in range(0, len(hierarchy[0])):
+          h = hierarchy[0][i]
+          cv2.drawContours(mask, contours , i, (055,055,255), 1) # 0 - draw only contour 0
+          # if h[3] == -1 :
+          #   print h
+          # Each hierarchy entry is Next, Previous, FirstChild, Parent
+          # cv2.drawContours(mask,cnt,-1,255,3)
+
+      #     x,y,w,h = cv2.boundingRect(cnt)
+    #     cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,255),2)
+        # cv2.imshow('Features', im)
 
     # b = cv2.SimpleBlobDetector()
 
@@ -54,6 +65,7 @@ while(1):
 
      # findContours, approxPoly
 
+    cv2.imshow('mask2',mask)
     cv2.imshow('frame',frame)
     cv2.imshow('mask',fgmask)
     k = cv2.waitKey(30) & 0xff
