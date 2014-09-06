@@ -22,6 +22,15 @@ while(1):
 
     cv2.drawContours(fgmask, contours, -1, (0,255,0), 3)
 
+    for i in range(0, len(contours)):
+        if (i % 2 == 0):
+           cnt = contours[i]
+           #mask = np.zeros(im2.shape,np.uint8)
+           #cv2.drawContours(mask,[cnt],0,255,-1)
+           x,y,w,h = cv2.boundingRect(cnt)
+           cv2.rectangle(fgmask,(x,y),(x+w,y+h),(0,255,0),2)
+           # cv2.imshow('Features', im)
+
     # b = cv2.SimpleBlobDetector()
 
     #set parameter
