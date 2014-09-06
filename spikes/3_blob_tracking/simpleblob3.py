@@ -39,7 +39,8 @@ while(1):
     if hierarchy is not None :
       for i in range(0, len(hierarchy[0])):
           h = hierarchy[0][i]
-          cv2.drawContours(mask, contours , i, (055,055,255), 1) # 0 - draw only contour 0
+          if len(contours[i]) > 10:
+            cv2.drawContours(mask, contours , i, (055,055,255), 1) # 0 - draw only contour 0
           # if h[3] == -1 :
           #   print h
           # Each hierarchy entry is Next, Previous, FirstChild, Parent
