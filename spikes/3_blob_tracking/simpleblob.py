@@ -9,7 +9,8 @@ import cv2
 # cap = cv2.VideoCapture('vtest.avi')
 cap = cv2.VideoCapture(0)
 
-fgbg = cv2.BackgroundSubtractorMOG2()
+# fgbg = cv2.BackgroundSubtractorMOG2()
+fgbg = cv2.BackgroundSubtractorMOG()
 
 while(1):
     ret, frame = cap.read()
@@ -20,7 +21,7 @@ while(1):
     ret,thresh = cv2.threshold(imgray,127,255,0)
     contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
-    cv2.drawContours(fgmask, contours, -1, (0,255,0), 3)
+    cv2.drawContours(fgmask, contours, -1, (255,255,255), 3)
 
     for i in range(0, len(contours)):
         if (i % 2 == 0):
@@ -28,7 +29,7 @@ while(1):
            #mask = np.zeros(im2.shape,np.uint8)
            #cv2.drawContours(mask,[cnt],0,255,-1)
            x,y,w,h = cv2.boundingRect(cnt)
-           cv2.rectangle(fgmask,(x,y),(x+w,y+h),(0,255,0),2)
+           cv2.rectangle(fgmask,(x,y),(x+w,y+h),(255,255,255),2)
            # cv2.imshow('Features', im)
 
     # b = cv2.SimpleBlobDetector()
