@@ -18,7 +18,12 @@ while(1):
     fgmask = fgbg.apply(frame)
 
     imgray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-    ret,thresh = cv2.threshold(imgray,127,255,0)
+
+    # http://opencvpython.blogspot.co.uk/2013/05/thresholding.html
+    # ret,thresh = cv2.threshold(imgray,127,255,0)
+    # ret,thresh = cv2.adaptiveThreshold(imgray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,3)
+    # ret,thresh = cv2.threshold(imgray,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    ret,thresh = cv2.threshold(imgray,0,255,cv2.THRESH_BINARY)
     contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
     cv2.drawContours(fgmask, contours, -1, (255,255,255), 3)
